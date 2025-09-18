@@ -68,6 +68,12 @@ public class Application {
         Map<Customer, List<Order>> ordersForClient = orders.stream().collect(Collectors.groupingBy(order -> order.getCustomer()));
         System.out.println(ordersForClient);
 
+        orders.stream().map(order -> order.getProducts()).map(products -> products.stream().map(product -> product.getPrice()).reduce((double) 0, (par, curr) -> par + curr));
+
+        Map<Customer, Double> totalForClient = orders.stream().collect(Collectors.groupingBy(order -> order.getCustomer(), Collectors.summingDouble(
+                order -> order.getProducts().stream().mapToDouble(product -> product.getPrice()).sum())));
+
+        System.out.println(totalForClient);
 
     }
 }
