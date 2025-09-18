@@ -66,6 +66,7 @@ public class Application {
         Map<Customer, List<Order>> ordersForClient = orders.stream()
                 .collect(Collectors.groupingBy(order -> order.getCustomer()));
 
+        System.out.println("ordini per clienti");
         System.out.println(ordersForClient);
 
 
@@ -74,20 +75,24 @@ public class Application {
                         Collectors.summingDouble(order -> order.getProducts().stream()
                                 .mapToDouble(product -> product.getPrice()).sum())));
 
+        System.out.println("totale per clienti");
         System.out.println(totalForClient);
 
 
         List<Product> expensivePr = listaProd.stream().sorted(Comparator.comparing(Product::getPrice).reversed()).limit(3).toList();
+        System.out.println("top 3 prodotti più costosi");
         System.out.println(expensivePr);
 
 
         List<OptionalDouble> avgOrd = orders.stream().map(order -> order.getProducts()).map(products -> products.stream()
                 .mapToDouble(product -> product.getPrice()).average()).toList();
 
+        System.out.println("medie degli ordini");
         System.out.println(avgOrd);
 
         Map<String, Double> avgForCategory = listaProd.stream().collect(Collectors.groupingBy(product -> product.getCategory(), Collectors.summingDouble(product -> product.getPrice())));
 
+        System.out.println("somma prezzi per categoria");
         System.out.println(avgForCategory);
     }
 }
