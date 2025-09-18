@@ -5,10 +5,7 @@ import giuseppetuccilli.entities.Customer;
 import giuseppetuccilli.entities.Order;
 import giuseppetuccilli.entities.Product;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Application {
@@ -82,5 +79,11 @@ public class Application {
 
         List<Product> expensivePr = listaProd.stream().sorted(Comparator.comparing(Product::getPrice).reversed()).limit(3).toList();
         System.out.println(expensivePr);
+
+
+        List<OptionalDouble> avgOrd = orders.stream().map(order -> order.getProducts()).map(products -> products.stream()
+                .mapToDouble(product -> product.getPrice()).average()).toList();
+
+        System.out.println(avgOrd);
     }
 }
