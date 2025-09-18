@@ -6,6 +6,7 @@ import giuseppetuccilli.entities.Order;
 import giuseppetuccilli.entities.Product;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,15 +66,21 @@ public class Application {
         orders.add(ordine2);
         orders.add(ordine3);
 
-        Map<Customer, List<Order>> ordersForClient = orders.stream().collect(Collectors.groupingBy(order -> order.getCustomer()));
+        Map<Customer, List<Order>> ordersForClient = orders.stream()
+                .collect(Collectors.groupingBy(order -> order.getCustomer()));
+
         System.out.println(ordersForClient);
 
-        orders.stream().map(order -> order.getProducts()).map(products -> products.stream().map(product -> product.getPrice()).reduce((double) 0, (par, curr) -> par + curr));
 
-        Map<Customer, Double> totalForClient = orders.stream().collect(Collectors.groupingBy(order -> order.getCustomer(), Collectors.summingDouble(
-                order -> order.getProducts().stream().mapToDouble(product -> product.getPrice()).sum())));
+        Map<Customer, Double> totalForClient = orders.stream()
+                .collect(Collectors.groupingBy(order -> order.getCustomer(),
+                        Collectors.summingDouble(order -> order.getProducts().stream()
+                                .mapToDouble(product -> product.getPrice()).sum())));
 
         System.out.println(totalForClient);
 
+
+        List<Product> expensivePr = listaProd.stream().sorted(Comparator.comparing(Product::getPrice).reversed()).limit(3).toList();
+        System.out.println(expensivePr);
     }
 }
