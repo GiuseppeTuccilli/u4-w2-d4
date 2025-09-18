@@ -85,5 +85,9 @@ public class Application {
                 .mapToDouble(product -> product.getPrice()).average()).toList();
 
         System.out.println(avgOrd);
+
+        Map<String, Double> avgForCategory = listaProd.stream().collect(Collectors.groupingBy(product -> product.getCategory(), Collectors.summingDouble(product -> product.getPrice())));
+
+        System.out.println(avgForCategory);
     }
 }
